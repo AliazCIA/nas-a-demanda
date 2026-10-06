@@ -1,0 +1,34 @@
+# Ajustes generales del Tablero. Guía: docs/tablero.md
+title: ${NAS_TITULO}
+language: es
+theme: dark
+color: slate
+headerStyle: clean
+cardBlur: md
+useEqualHeights: true
+hideVersion: true
+disableCollapse: false
+statusStyle: dot
+# Orden y forma de los grupos: el nombre debe ser IDÉNTICO al de services.yaml
+layout:
+  Encender y apagar:
+    icon: mdi-power
+    style: row
+    columns: 1
+  Fotos y archivos:
+    icon: mdi-image-multiple
+    style: row
+    columns: 4
+  Windows (VM):
+    icon: mdi-microsoft-windows
+    style: row
+    columns: 2
+  Administrar la PC:
+    icon: mdi-cog
+    style: row
+    columns: 2
+  Desde fuera de casa:
+    icon: mdi-earth
+    style: row
+    columns: 4
+    initiallyCollapsed: true

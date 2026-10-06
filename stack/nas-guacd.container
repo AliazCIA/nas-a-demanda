@@ -1,0 +1,8 @@
+[Unit]
+Description=Guacamole - motor de escritorio remoto (guacd), respaldo web del RDP de la VM
+[Container]
+Image=docker.io/guacamole/guacd:latest
+ContainerName=guacd
+Network=host
+[Service]
+Restart=always

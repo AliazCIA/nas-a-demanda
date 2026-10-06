@@ -1,0 +1,15 @@
+[Unit]
+Description=Tablero - pagina unica de entrada al NAS
+[Container]
+Image=ghcr.io/gethomepage/homepage:latest
+ContainerName=nas_tablero
+Network=nas.network
+UserNS=keep-id
+Volume=%h/nas/appdata/homepage:/app/config:Z
+PublishPort=3000:3000
+# Solo lo del Tablero (llave de Portainer + direcciones permitidas); NO el .env del NAS, que trae todas las claves
+EnvironmentFile=%h/nas/tablero.env
+[Service]
+Restart=always
+[Install]
+WantedBy=default.target

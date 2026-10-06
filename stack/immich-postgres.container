@@ -1,0 +1,14 @@
+[Unit]
+Description=Immich - base de datos (OBLIGATORIO en disco Linux, NUNCA en NTFS)
+[Container]
+Image=ghcr.io/immich-app/postgres:14-vectorchord0.4.3-pgvectors0.2.0
+ContainerName=immich_postgres
+Network=nas.network
+Volume=%h/nas/appdata/immich/postgres:/var/lib/postgresql/data:Z
+EnvironmentFile=%h/nas/.env
+Environment=POSTGRES_INITDB_ARGS=--data-checksums
+Exec=
+ShmSize=128m
+PodmanArgs=--env POSTGRES_PASSWORD=${DB_PASSWORD} --env POSTGRES_USER=${DB_USERNAME} --env POSTGRES_DB=${DB_DATABASE_NAME}
+[Service]
+Restart=always

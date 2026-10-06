@@ -1,0 +1,16 @@
+[Unit]
+Description=Syncthing - respaldo continuo de dispositivos
+[Container]
+Image=docker.io/syncthing/syncthing:latest
+ContainerName=nas_syncthing
+Network=nas.network
+UserNS=keep-id
+Volume=%h/nas/appdata/syncthing:/var/syncthing/config:Z
+Volume=%h/nas/datos/dispositivos:/var/syncthing/data
+PublishPort=8384:8384
+PublishPort=22000:22000/tcp
+PublishPort=22000:22000/udp
+PublishPort=21027:21027/udp
+Environment=STGUIADDRESS=0.0.0.0:8384
+[Service]
+Restart=always

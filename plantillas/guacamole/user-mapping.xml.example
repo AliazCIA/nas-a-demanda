@@ -1,0 +1,18 @@
+<!-- Usuarios del portal web Guacamole. Copia a ~/nas/appdata/guacamole/user-mapping.xml
+     La clave va en MD5: echo -n 'tu-clave' | md5sum -->
+<user-mapping>
+    <authorize username="usuario" password="md5-de-tu-clave" encoding="md5">
+        <connection name="Windows (VM)">
+            <protocol>rdp</protocol>
+            <param name="hostname">192.168.122.30</param>
+            <param name="port">3389</param>
+            <param name="username">usuario-de-windows</param>
+            <param name="ignore-cert">true</param>
+            <param name="security">any</param>
+            <param name="resize-method">display-update</param>
+            <param name="enable-drive">true</param>
+            <param name="drive-path">/drive</param>
+            <param name="create-drive-path">true</param>
+        </connection>
+    </authorize>
+</user-mapping>

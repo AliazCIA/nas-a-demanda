@@ -1,0 +1,4 @@
+[Unit]
+Description=Red interna del NAS
+[Network]
+NetworkName=nas

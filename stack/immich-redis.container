@@ -1,0 +1,8 @@
+[Unit]
+Description=Immich - cache (valkey)
+[Container]
+Image=docker.io/valkey/valkey:9
+ContainerName=immich_redis
+Network=nas.network
+[Service]
+Restart=always

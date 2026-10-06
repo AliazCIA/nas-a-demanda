@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Panel del NAS</title>
+<style>
+  :root { --fondo:#0f172a; --tarjeta:#1e293b; --borde:#334155; --texto:#e2e8f0; --tenue:#94a3b8;
+          --verde:#22c55e; --ambar:#f59e0b; --rojo:#ef4444; --azul:#3b82f6; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--fondo); color:var(--texto); font:16px/1.4 system-ui,sans-serif; }
+  main { max-width:760px; margin:0 auto; padding:16px; }
+  h1 { font-size:1.4rem; margin:.2rem 0 1rem; }
+  .disco { padding:12px 14px; border-radius:10px; margin-bottom:16px; border:1px solid var(--borde); }
+  .disco.no { border-color:var(--rojo); background:#3f1d1d; }
+  .grupo { display:flex; align-items:center; gap:12px; background:var(--tarjeta); border:1px solid var(--borde);
+           border-radius:10px; padding:14px; margin-bottom:10px; }
+  .info { flex:1; min-width:0; }
+  .nombre { font-weight:600; }
+  .nombre a { color:var(--texto); }
+  .para { color:var(--tenue); font-size:.9rem; }
+  .punto { width:12px; height:12px; border-radius:50%; flex:none; background:var(--tenue); }
+  .encendido .punto { background:var(--verde); }
+  .cambiando .punto, .a.medias .punto { background:var(--ambar); }
+  .falló .punto { background:var(--rojo); }
+  .estado { font-size:.85rem; color:var(--tenue); }
+  button { font:inherit; padding:10px 16px; border-radius:8px; border:0; cursor:pointer; color:#fff;
+           background:var(--azul); min-width:104px; }
+  button.apagar { background:#475569; }
+  button:disabled { opacity:.45; cursor:default; }
+  #error { color:var(--rojo); min-height:1.4em; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Panel del NAS</h1>
+  <div id="disco" class="disco">Cargando…</div>
+  <div id="error"></div>
+  <div id="grupos"></div>
+</main>
+<script>
+const host = location.hostname;
+async function cargar() {
+  const r = await fetch('/api/estado', {cache: 'no-store'});
+  const e = await r.json();
+  const d = document.getElementById('disco');
+  d.className = 'disco' + (e.disco ? '' : ' no');
+  d.textContent = e.disco
+    ? `Disco ${e.disco_nombre} conectado · ${e.uso.libre_gb} GB libres de ${e.uso.total_gb} GB`
+    : `Disco ${e.disco_nombre} NO conectado: conéctalo para poder encender Immich, Syncthing, Archivos o Samba.`;
+  const cont = document.getElementById('grupos');
+  cont.replaceChildren(...e.grupos.map(g => {
+    const div = document.createElement('div');
+    div.className = 'grupo ' + g.estado;
+    const on = g.estado === 'encendido' || g.estado === 'a medias' || g.estado === 'cambiando';
+    const nombre = g.url && g.estado === 'encendido'
+      ? `<a href="http://${host}${g.url}" target="_blank">${g.nombre}</a>` : g.nombre;
+    div.innerHTML = `<span class="punto"></span>
+      <div class="info"><div class="nombre">${nombre}</div>
+      <div class="para">${g.para}</div><div class="estado">${g.estado}</div></div>`;
+    const b = document.createElement('button');
+    b.textContent = on ? 'Apagar' : 'Encender';
+    b.className = on ? 'apagar' : '';
+    b.disabled = !on && g.necesita_disco && !e.disco;
+    b.onclick = () => mandar(g.clave, on ? 'apagar' : 'encender', b);
+    div.append(b);
+    return div;
+  }));
+}
+async function mandar(clave, que, boton) {
+  boton.disabled = true;
+  document.getElementById('error').textContent = '';
+  const r = await fetch(`/api/${clave}/${que}`, {method: 'POST', headers: {'X-Panel': '1'}});
+  if (!r.ok) document.getElementById('error').textContent = (await r.json()).error;
+  cargar();
+}
+cargar();
+setInterval(cargar, 4000);
+</script>
+</body>
+</html>

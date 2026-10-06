@@ -1,0 +1,9 @@
+[Unit]
+Description=Panel de control del NAS (enciende/apaga servicios y la VM a demanda)
+
+[Service]
+ExecStart=/usr/bin/python3 %h/nas/panel/panel.py
+Restart=always
+
+[Install]
+WantedBy=default.target

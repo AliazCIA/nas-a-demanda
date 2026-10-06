@@ -1,0 +1,5 @@
+# OPCIONAL — Lector de Docker de solo lectura para mostrar el estado de contenedores de Docker.
+# Ver docs/tablero.md §Docker (tecnativa/docker-socket-proxy con CONTAINERS=1, POST=0, en 172.17.0.1:2375).
+# docker-pc:
+#   host: 172.17.0.1
+#   port: 2375
