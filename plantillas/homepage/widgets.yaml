@@ -1,0 +1,18 @@
+# Barra de arriba. Guía: docs/tablero.md
+- greeting:
+    text_size: xl
+    text: ${NAS_TITULO}
+- resources:
+    label: Esta PC
+    cpu: true
+    memory: true
+    disk:
+      - /
+    expanded: true
+- datetime:
+    text_size: l
+    locale: es-MX
+    format:
+      dateStyle: full
+      timeStyle: short
+      hourCycle: h23

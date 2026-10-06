@@ -1,0 +1,12 @@
+[Unit]
+Description=Samba - carpetas de red (SMB) para Windows, Android e iPhone
+[Container]
+Image=ghcr.io/servercontainers/samba:latest
+ContainerName=nas_samba
+Network=nas.network
+Volume=%h/nas/datos/archivos:/shares/archivos
+Volume=%h/nas/datos/dispositivos:/shares/dispositivos
+EnvironmentFile=%h/nas/appdata/samba/samba.env
+PublishPort=445:445
+[Service]
+Restart=always

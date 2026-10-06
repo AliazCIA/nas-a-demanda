@@ -1,0 +1,14 @@
+[Unit]
+Description=Guacamole - portal web a la VM (:8080/guacamole)
+Requires=nas-guacd.service
+After=nas-guacd.service
+[Container]
+Image=docker.io/guacamole/guacamole:latest
+ContainerName=guacamole
+Network=host
+Environment=GUACD_HOSTNAME=127.0.0.1
+Environment=GUACD_PORT=4822
+Environment=GUACAMOLE_HOME=/etc/guacamole
+Volume=%h/nas/appdata/guacamole/user-mapping.xml:/etc/guacamole/user-mapping.xml:ro,Z
+[Service]
+Restart=always

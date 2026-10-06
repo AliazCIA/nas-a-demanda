@@ -1,0 +1,12 @@
+# Tu instalación: valores, secretos, datos. NUNCA a git (lo vigila scripts/verificar-sin-datos-personales.sh).
+.env
+tablero.env
+appdata/
+datos
+privado/
+.claude/memory/privado/
+.claude/memory/hilo-mental-actual*.md
+.claude/settings.local.json
+.claude/worktrees/
+__pycache__/
+*.bak*

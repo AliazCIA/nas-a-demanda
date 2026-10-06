@@ -1,0 +1,85 @@
+# TABLERO — los mosaicos. Guía para editarlo: docs/tablero.md
+# Plantilla: instalar.sh la copia a ~/nas/appdata/homepage/ UNA vez, llenando las ${VARIABLES} con tu .env.
+# Cada mosaico: nombre (lo que HACE al tocarlo), icon, href (a dónde lleva),
+# description (qué pasa + qué necesitas antes), siteMonitor (el verde/rojo).
+# OJO: en siteMonitor usa host.containers.internal, NUNCA la IP del NAS (desde el contenedor no llega).
+
+- Encender y apagar:
+    - "Encender o apagar servicios":
+        icon: mdi-power
+        href: http://${NAS_IP}:3001
+        description: "Abre el Panel. Aquí prendes Fotos, Archivos, Samba, Syncthing y el Windows. Si algo sale en rojo abajo, empieza aquí."
+        siteMonitor: http://host.containers.internal:3001/salud
+        statusStyle: dot
+
+- Fotos y archivos:
+    - "Ver mis fotos y videos":
+        icon: immich.png
+        href: http://${NAS_IP}:2283
+        description: "Abre Immich. Las fotos del cel se suben solas. Rojo = apagado: préndelo en el Panel."
+        siteMonitor: http://host.containers.internal:2283/api/server/ping
+        statusStyle: dot
+    - "Explorar archivos del NAS":
+        icon: filebrowser.png
+        href: http://${NAS_IP}:8081
+        description: "Abre el explorador (usuario admin): ver, subir y descargar archivos. Rojo = préndelo en el Panel."
+        siteMonitor: http://host.containers.internal:8081/
+        statusStyle: dot
+    - "Ver respaldos continuos":
+        icon: syncthing.png
+        href: http://${NAS_IP}:8384
+        description: "Abre Syncthing: qué carpetas de cels y laptops se están respaldando. Rojo = préndelo en el Panel."
+        siteMonitor: http://host.containers.internal:8384/rest/noauth/health
+        statusStyle: dot
+    - "Carpeta de red (solo info)":
+        icon: mdi-folder-network
+        description: "No se abre aquí. En Windows o el cel escribe \\\\${NAS_IP}. Debe estar prendido en el Panel."
+
+- Windows (VM):
+    - "¿El Windows está listo?":
+        icon: mdi-microsoft-windows
+        description: "Solo indicador. Verde = ya puedes entrar con la app Windows App a ${NAS_IP}. Rojo = apagado o arrancando: préndelo en el Panel y espera ~1 min."
+        siteMonitor: http://host.containers.internal:3001/salud/vm
+        statusStyle: dot
+    - "Entrar al Windows desde el navegador":
+        icon: guacamole.png
+        href: http://${NAS_IP}:8080/guacamole
+        description: "Abre el escritorio de Windows dentro de esta página (sin app). Necesita el Windows Y el Portal web prendidos en el Panel."
+        siteMonitor: http://host.containers.internal:8080/guacamole/
+        statusStyle: dot
+
+- Administrar la PC:
+    - "Consola de la PC":
+        icon: cockpit.png
+        href: https://${NAS_IP}:9090
+        description: "Abre Cockpit (tu usuario del sistema): discos, servicios, la VM y una terminal web."
+    # OPCIONAL — Portainer (si usas Docker además de podman). Ver docs/tablero.md §Docker.
+    # - "Ver y controlar contenedores":
+    #     icon: portainer.png
+    #     href: https://${NAS_IP}:9443
+    #     description: "Abre Portainer: contenedores de Docker, arrancar, detener y ver logs."
+    #     siteMonitor: https://host.containers.internal:9443
+    #     statusStyle: dot
+    #     widget:
+    #       type: portainer
+    #       url: https://host.containers.internal:9443
+    #       env: 3
+    #       key: "{{HOMEPAGE_VAR_PORTAINER_KEY}}"
+
+- Desde fuera de casa:
+    - "Este tablero, desde fuera":
+        icon: mdi-view-dashboard
+        href: http://${NAS_TAILSCALE_IP}:3000
+        description: "Guárdalo en el cel. Solo abre con Tailscale prendido en el cel."
+    - "Panel, desde fuera":
+        icon: mdi-power
+        href: https://${NAS_TAILSCALE_DNS}
+        description: "Encender/apagar estando fuera, con candado HTTPS (tailscale serve). Necesita Tailscale prendido en el cel."
+    - "Fotos, desde fuera":
+        icon: immich.png
+        href: http://${NAS_TAILSCALE_IP}:2283
+        description: "Immich estando fuera. Necesita Tailscale en el cel e Immich prendido."
+    - "Administrar Tailscale":
+        icon: tailscale.png
+        href: https://login.tailscale.com/admin/machines
+        description: "Abre la consola de Tailscale: qué aparatos están en tu red."

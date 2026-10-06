@@ -1,0 +1,10 @@
+[Unit]
+Description=Immich - reconocimiento de imagenes
+[Container]
+Image=ghcr.io/immich-app/immich-machine-learning:release
+ContainerName=immich_ml
+Network=nas.network
+Volume=immich-modelos.volume:/cache
+EnvironmentFile=%h/nas/.env
+[Service]
+Restart=always

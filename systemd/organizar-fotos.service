@@ -1,0 +1,5 @@
+[Unit]
+Description=Organiza la biblioteca de Immich por fecha (enlaces duros)
+[Service]
+Type=oneshot
+ExecStart=%h/nas/bin/organizar-por-fecha.sh %h/nas/datos

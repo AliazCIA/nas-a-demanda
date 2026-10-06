@@ -1,0 +1,16 @@
+[Unit]
+Description=Immich - servidor (biblioteca de fotos)
+Requires=immich-postgres.service immich-redis.service
+After=immich-postgres.service immich-redis.service
+[Container]
+Image=ghcr.io/immich-app/immich-server:release
+ContainerName=immich_server
+Network=nas.network
+UserNS=keep-id
+Volume=%h/nas/datos/fotos:/data
+Volume=/etc/localtime:/etc/localtime:ro
+EnvironmentFile=%h/nas/.env
+PublishPort=2283:2283
+[Service]
+Restart=always
+TimeoutStartSec=900
