@@ -1,0 +1,15 @@
+[Unit]
+Description=FileBrowser Quantum - gestor de archivos web (sucesor mantenido del File Browser archivado)
+[Container]
+Image=ghcr.io/gtsteffaniak/filebrowser:latest
+ContainerName=nas_archivos
+Network=nas.network
+UserNS=keep-id
+Volume=%h/nas/appdata/filebrowser:/database:Z
+Volume=%h/nas/datos:/srv
+PublishPort=8081:8080
+Environment=FILEBROWSER_CONFIG=/database/config.yaml
+Environment=FILEBROWSER_DATABASE=/database/database.db
+EnvironmentFile=%h/nas/.env
+[Service]
+Restart=always

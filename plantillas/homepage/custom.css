@@ -1,0 +1,29 @@
+/* Estilo del Tablero. Guía: docs/tablero.md */
+
+/* Fondo con degradado en lugar del gris plano */
+body, #page_wrapper {
+  background: radial-gradient(circle at 15% 0%, #1e3a5f 0%, #0f172a 45%, #020617 100%) fixed !important;
+}
+
+/* Tarjetas: más aire, borde suave, se levantan al pasar el dedo/ratón */
+.service-card {
+  border: 1px solid rgba(148, 163, 184, 0.15);
+  border-radius: 14px !important;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  transition: transform 0.15s ease, border-color 0.15s ease;
+}
+.service-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(96, 165, 250, 0.6);
+}
+
+/* Nombre más grande y claro; la descripción se lee completa */
+.service-name { font-size: 1.05rem; font-weight: 600; }
+.service-description { white-space: normal !important; opacity: 0.85; line-height: 1.35; }
+
+/* Íconos un poco más grandes */
+.service-icon { width: 44px; height: 44px; }
+
+/* Títulos de grupo más visibles */
+.service-group-name { font-size: 1.15rem; font-weight: 700; letter-spacing: 0.02em; }
